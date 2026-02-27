@@ -40,26 +40,23 @@
   :group 'gptel-watch)
 
 (defcustom gptel-watch-system-prompt
-  "你作为一个文本助手, 拥有写作和编程能力.
-你根据上下文推测意图, 帮我编写内容.
-比如我发送:
+  "You will act as a text assistant with writing and programming capabilities.
+You will infer intent from context to generate content.
+For example, if I send:
+
 int main()
 {
-  // 打印 Hello World. AI!
+  // Print Hello World. AI!
 }
-然后你根据上下文推测 文本 AI 这行用意, 然后你返回内容.
-仅仅返回你写的内容, 比如:
+
+You should then infer the intent from the comment's context and return the content.
+Only return the content you generate, for example:
+
 printf(\"Hello World\");
 
-下面是限制你返回内容的条件:
-简洁回复.
-请不要发送任何 Markdown 格式代码:
-```language
-Code
-```
-请不要发送任何 Markdown 格式代码.
-请不要发送任何 Markdown 格式代码.
-"
+Generate ONLY code as output, without any explanation or markdown code fences.
+Generate code in full, do not abbreviate or omit code.
+Do not ask for further clarification, and make any assumptions you need to follow instructions."
   "System prompt passed to `gptel-request`."
   :type 'string
   :group 'gptel-watch)
