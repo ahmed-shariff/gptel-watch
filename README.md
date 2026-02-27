@@ -1,6 +1,5 @@
-WARING: `gptel-watch.el` Most of the code is written by AI.
 
-`gptel-watch` Inspired by `aider --watch-files`
+> `gptel-watch` Inspired by `aider --watch-files`
 
 # gptel-watch
 
@@ -13,17 +12,9 @@ This package builds on [`gptel`](https://github.com/karthink/gptel), providing a
 ## Preview
 ![preview](preview.gif)
 
-## ✨ Features
-
-- Monitors user input and triggers GPT when a line ends with defined patterns.
-- Custom extraction of context, see title.: `How to Context extraction`
-- Clears the trigger line and replaces it with GPT-generated output.
-- Works seamlessly with `newline`, `org-return`, or any custom command you define.
-- Supports global and per-buffer activation.
-
 ---
 
-## 📦 Installation
+## Installation
 
 ```elisp
 (use-package gptel-watch
@@ -33,7 +24,7 @@ This package builds on [`gptel`](https://github.com/karthink/gptel), providing a
   (gptel-watch-global-mode 1))  ;; Optional: enable globally
 ```
 
-## 🚀 Usage
+## Usage
 Once enabled, write a line like this:
 ```C
 // Print Hello World. AI!
@@ -43,14 +34,14 @@ Then press `RET`. The line will be replaced with the GPT-generated result, such 
 printf("Hello World");
 ```
 
-## 👓 How to Context extraction
+## How to Context extraction
 1. `Current Defun`: Current definition under cursor
-2. `Down/Up Line`: Up/Down a line
-3. `Line Range`: Precise line number range of the current buffer
+2. `Relative Line`: Up/Down a line
+3. `Range Line`: Precise line number range of the current buffer
 4. `Only Current Line`: Only the current line, do not extract context.
 5. `And more` ........
 
-## 🔧 Customization
+## Customization
 
 | Variable                       | Description                                                                                              |
 |--------------------------------|----------------------------------------------------------------------------------------------------------|
@@ -59,28 +50,3 @@ printf("Hello World");
 | `gptel-watch-system-prompt`    | The system prompt sent to GPT along with the context. Guides the style and constraints of the reply.     |
 
 
-All customization can also be set via `setq` in your `init.el`
-
-## 🧠 Example Workflow
-1. Write your idea or prompt inline with a marker like // AI! or #ai.
-
-2. Press RET.
-
-3. GPT fills in the next logical content based on surrounding context.
-
-4. Continue writing!
-
-## 🔍 Advanced Notes
-This package uses `post-command-hook` to monitor input commands.
-
-- Only non-minibuffer buffers are affected.
-
-- Trigger pattern matching is based on line suffixes — regexes are appended with $ internally.
-
-- The system prompt is critical for shaping the LLM output — tune it to suit your use case (e.g., short replies, no Markdown, coding only, etc.).
-
-## ✅ Provided Modes
-| Mode                      | Scope        | Description                            |
-| ------------------------- | ------------ | -------------------------------------- |
-| `gptel-watch-mode`        | Buffer-local | Enable GPT triggers in current buffer  |
-| `gptel-watch-global-mode` | Global       | Enable GPT triggers across all buffers |
