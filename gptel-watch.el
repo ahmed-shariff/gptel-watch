@@ -67,8 +67,10 @@ Code
 (defvar gptel-watch--current-context nil
   "Current context.")
 
-(defvar gptel-watch--line-history nil
-  "History list for User input line format.")
+(defvar gptel-watch--line-relative-history nil
+  "History list for line relative.")
+(defvar gptel-watch--line-range-history nil
+  "History list for line ranges.")
 
 ;;;###autoload
 (defun gptel-watch ()
@@ -108,7 +110,7 @@ Code
 (defun gptel-watch--extract-context-lines-relative ()
   "Extract context based on relative lines above and below point."
   (condition-case err
-      (let* ((input (read-string "Enter UP,DOWN lines (e.g. 10,20): " nil 'gptel-watch--line-history)))
+      (let* ((input (read-string "History(M-n/M-p) Relative line(e.g. 10,20): " nil 'gptel-watch--line-relative-history)))
         (unless (string-match-p "^[0-9]+,[0-9]+$" input)
           (user-error "Invalid input format. Expected e.g. 10,20"))
         (let* ((parts (split-string input ","))
@@ -128,7 +130,7 @@ Code
 (defun gptel-watch--extract-context-lines-range ()
   "Extract context between two absolute line numbers."
   (condition-case err
-      (let* ((input (read-string "Enter START,END line numbers (e.g. 100,200): " nil 'gptel-watch--line-history)))
+      (let* ((input (read-string "History(M-n/M-p) Range line(e.g. 100,200): " nil 'gptel-watch--line-range-history)))
         (unless (string-match-p "^[0-9]+,[0-9]+$" input)
           (user-error "Invalid input format. Expected e.g. 100,200"))
         (let* ((parts (split-string input ","))
@@ -166,15 +168,15 @@ Return NIL if user cancels or input invalid."
                       "Choose context method: "
                       '("Defun(mark-defun)"
                         "Page(mark-page)"
-                        "Down/Up Line"
-                        "Line Range"
+                        "Relative Line"
+                        "Range Line"
                         "Only Current Line")
                       nil t)))
         (pcase choice
           ("Defun(mark-defun)" (gptel-watch--extract-context-defun))
           ("Page(mark-page)" (gptel-watch--extract-context-page))
-          ("Down/Up Line" (gptel-watch--extract-context-lines-relative))
-          ("Line Range" (gptel-watch--extract-context-lines-range))
+          ("Relative Line" (gptel-watch--extract-context-lines-relative))
+          ("Range Line" (gptel-watch--extract-context-lines-range))
           ("Only Current Line" (gptel-watch--extract-context-current-line))
           (_ nil)))
     (quit
