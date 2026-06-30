@@ -193,16 +193,17 @@ Return NIL if user cancels or input invalid."
 
         ;; Set overlay + temporary buffer.
         (let* ((ov (make-overlay beg end nil t))
-               (proc-buf (gptel--temp-buffer " *gptel-rewrite*"))
-               (info (list :context (cons ov proc-buf))))
+               (proc-buf (gptel--temp-buffer " *gptel-rewrite*")))
           (overlay-put ov 'category 'gptel)
           (overlay-put ov 'evaporate t)
 
           ;; Send a request, and display the result via gptel--rewrite-callback.
           (gptel-request context
             :system gptel-watch-system-prompt
-            :callback (lambda (response _reqinfo)
-                        (gptel--rewrite-callback response info))))))))
+            :callback (lambda (response info)
+                        (gptel--rewrite-callback response info))
+            :context (cons ov proc-buf)
+            :fsm (gptel-make-fsm :handlers gptel--rewrite-handlers)))))))
 
 (defun gptel-watch--post-command ()
   "Run after a command, check user AI intertion."
